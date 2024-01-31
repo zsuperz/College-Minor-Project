@@ -1,0 +1,9 @@
+create a .env file in the directory where app.py
+
+the .env file should contain:
+
+SECRET_KEY= secret key 
+
+SQLALCHEMY_DATABASE_URI= url for database 
+
+UPLOAD_FOLDER = path of the folder for saving the post that the user creates.

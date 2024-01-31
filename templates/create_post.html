@@ -1,0 +1,119 @@
+<!-- create_post.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include necessary meta tags, CSS, and Bootstrap CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='post.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Create Post - Memetopiya</title>
+</head>
+<body>
+    <!-- Navigation bar (you can reuse the existing navbar code) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='ok') }}" alt="Your Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('view_posts') }}">Feed</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('create_post') }}">Create Post <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item auth">
+                    {% if 'user_id' in session %}
+                        User: {{ session['username'] }} | <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        <a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Create post form -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Create a Post</h2>
+        <form action="{{ url_for('create_post') }}" method="post" enctype="multipart/form-data" class="mb-4">
+            <form action="{{ url_for('create_post') }}" method="post" class="mb-4" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="post_title">Title:</label>
+                    <input type="text" class="form-control" id="post_title" name="post_title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="post_media">Upload Photo or Video:</label>
+                    <input type="file" class="form-control-file" id="post_media" name="post_media" accept="image/*, video/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Post</button>
+
+                <div class="preview-container">
+                    <p><strong>Preview:</strong></p>
+                    <img id="imagePreview" class="d-none">
+                    <video id="videoPreview" class="d-none" controls></video>
+                </div>
+            
+               
+            </form>
+            
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JS and your custom JavaScript file -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="your-script.js"></script>
+
+    <style>
+        .preview-container {
+            max-width: 50%; /* Ensure the container doesn't exceed the viewport width */
+            overflow: hidden; /* Hide overflowing content */
+        }
+    
+        #imagePreview, #videoPreview {
+            max-width: 100%; /* Ensure images and videos don't exceed their container width */
+            height: auto; /* Maintain aspect ratio for images and videos */
+        }
+    </style>
+    
+    <script>
+        document.getElementById('post_media').addEventListener('change', function () {
+            var fileInput = this;
+            var previewImage = document.getElementById('imagePreview');
+            var previewVideo = document.getElementById('videoPreview');
+            var previewContainer = document.querySelector('.preview-container');
+    
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                if (file.type.startsWith('image/')) {
+                    // Display image preview
+                    previewImage.src = URL.createObjectURL(file);
+                    previewImage.classList.remove('d-none');
+                    previewVideo.classList.add('d-none');
+                } else if (file.type.startsWith('video/')) {
+                    // Display video preview
+                    previewVideo.src = URL.createObjectURL(file);
+                    previewVideo.classList.remove('d-none');
+                    previewImage.classList.add('d-none');
+                }
+    
+                // Adjust the container size based on the type of media
+                if (file.type.startsWith('image/')) {
+                    previewContainer.style.maxHeight = '400px'; // Set the maximum height for image preview
+                } else if (file.type.startsWith('video/')) {
+                    previewContainer.style.maxHeight = '300px'; // Set the maximum height for video preview
+                }
+            }
+        });
+    </script>
+</body>
+</html>

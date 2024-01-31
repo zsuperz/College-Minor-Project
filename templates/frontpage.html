@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='frontpage.css') }}">
+    <title>Memetopiya</title>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="/">
+                <img src="{{ url_for('static', filename='Logo.png') }}" alt="Your Logo">
+            </a>
+        </div>
+        <ul>
+            
+            <li><a href="{{ url_for('view_posts') }}">Feed</a></li>
+            <li class="auth">
+                {% if 'user_id' in session %}
+                    <!-- Display user profile text and logout button -->
+                    User: {{ session['username'] }} | <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <!-- If not logged in, show login and signup buttons -->
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('signup') }}">Sign Up</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Video-Integrated Background -->
+    <video autoplay muted loop id="background-video">
+        <source src="{{ url_for('static', filename='Russian kid dancing meme.mp4') }}" type="video/mp4">
+    </video>
+    
+    <div class="logo-centre-container">
+        <div class="frontlogo">
+            <img src="{{ url_for('static', filename='Logo copy.png') }}" alt="Your Logo">
+        </div>
+    </div>
+
+    <!-- Move the button-container outside the center-container -->
+    <div class="center-container">
+        <!-- Content of the center-container (if any) -->
+
+    </div>
+
+    <div class="button-container">
+        <!-- Buttons go here -->
+        <a href="{{ url_for('login') }}" class="button button-login">Login</a>
+        <a href="{{ url_for('signup') }}" class="button button-signup">Sign Up</a>
+        
+    </div>
+    
+    <!-- Include space for JavaScript -->
+    <script src="{{ url_for('static', filename='your-script.js') }}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

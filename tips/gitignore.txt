@@ -1,0 +1,1 @@
+when uploading on GitHub using git you should use (.gitignore .env) to keep the .env file private.

@@ -1,0 +1,81 @@
+<!-- post.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='post.css') }}">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Memetopiya</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='ok') }}" alt="Your Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('view_posts') }}">Feed</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('create_post') }}">Create Post</a>
+                </li>
+                <li class="nav-item auth">
+                    {% if 'user_id' in session %}
+                        User: {{ session['username'] }} | <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        <a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">All Posts</h2>
+        <!-- Display all posts -->
+        {% for post in posts %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <!-- Display title and content -->
+                    <h5 class="card-title">Title: {{ post.title }}</h5>
+                    <p class="card-text">Content: {{ post.content }}</p>
+                    <p class="card-text">Author: {{ post.username }}</p>
+                    
+                    <!-- Display media preview -->
+                    {% if post.media_filename %}
+                        <div class="preview-container">
+                            {% if post.media_filename.endswith(('png', 'jpg', 'jpeg', 'gif')) %}
+                                <img src="{{ url_for('static', filename='uploads/' + post.media_filename) }}" class="img-fluid" alt="Post Media">
+                            {% elif post.media_filename.endswith(('mp4', 'avi', 'mkv')) %}
+                                <video controls class="img-fluid">
+                                    <source src="{{ url_for('static', filename='uploads/' + post.media_filename) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Add buttons for like, comment, etc. -->
+                    <a href="{{ url_for('view_comments', post_id=post.id) }}" class="btn btn-primary">Comment</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+<!-- Include Bootstrap JS and your custom JavaScript file -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="your-script.js"></script>
+
+</body>
+</html>
