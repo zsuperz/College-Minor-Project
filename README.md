@@ -1,4 +1,8 @@
-# Memetopiya - Social Networking and Discussion Platform
+<picture>
+  <img alt="Shows an illustrated sun in light mode and a moon with stars in dark mode." src="https://github.com/zsuperz/College-Minor-Project/blob/main/memetopiya%20logo.png">
+</picture>
+
+# Social Networking and Discussion Platform
 ## Project Overview
 Welcome to the repository of Memetopiya, a vibrant and engaging social networking and discussion site! This platform is designed to bring together communities through shared interests, discussions, and, most importantly, memes. Our goal is to create an interactive and user-friendly environment where individuals can connect, share, and engage with content in a fun and meaningful way.
 
